@@ -1,0 +1,43 @@
+<.header>
+  Listing Pages
+  <:actions>
+    <.link patch={~p"/pages/new"}>
+      <.button>New Live page</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="pages"
+  rows={@streams.pages}
+  row_click={fn {_id, live_page} -> JS.navigate(~p"/pages/#{live_page}") end}
+>
+  <:col :let={{_id, live_page}} label="Title"><%= live_page.title || "Processing" %></:col>
+  <:col :let={{_id, live_page}} label="Url"><%= live_page.url %></:col>
+  <:col :let={{_id, live_page}} label="Total links"><%= live_page.links || "Processing" %></:col>
+  <:action :let={{_id, live_page}}>
+    <div class="sr-only">
+      <.link navigate={~p"/pages/#{live_page}"}>Show</.link>
+    </div>
+    <.link patch={~p"/pages/#{live_page}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, live_page}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: live_page.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="live_page-modal" show on_cancel={JS.patch(~p"/pages")}>
+  <.live_component
+    module={XcrapperWeb.LivePageLive.FormComponent}
+    id={@live_page.id || :new}
+    title={@page_title}
+    action={@live_action}
+    live_page={@live_page}
+    patch={~p"/pages"}
+  />
+</.modal>

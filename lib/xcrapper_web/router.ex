@@ -18,6 +18,13 @@ defmodule XcrapperWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    live "/pages", LivePageLive.Index, :index
+    live "/pages/new", LivePageLive.Index, :new
+    live "/pages/:id/edit", LivePageLive.Index, :edit
+
+    live "/pages/:id", LivePageLive.Show, :show
+    live "/pages/:id/show/edit", LivePageLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
