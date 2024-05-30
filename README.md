@@ -1,6 +1,8 @@
 # Xcrapper
 Link Crawler
 
+It uses :httpoison and :floki to scrap web pages
+
 ## External Dependencies
 
 - [Docker Compose](https://docs.docker.com/compose/)

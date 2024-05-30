@@ -1,11 +1,11 @@
 <.header>
   Live page <%= @live_page.id %>
   <:subtitle>This is a live_page record from your database.</:subtitle>
-  <:actions>
+  <%!-- <:actions>
     <.link patch={~p"/pages/#{@live_page}/show/edit"} phx-click={JS.push_focus()}>
       <.button>Edit live_page</.button>
     </.link>
-  </:actions>
+  </:actions> --%>
 </.header>
 
 <.list>
@@ -16,7 +16,7 @@
 
 <.back navigate={~p"/pages"}>Back to pages</.back>
 
-<.modal :if={@live_action == :edit} id="live_page-modal" show on_cancel={JS.patch(~p"/pages/#{@live_page}")}>
+<%!-- <.modal :if={@live_action == :edit} id="live_page-modal" show on_cancel={JS.patch(~p"/pages/#{@live_page}")}>
   <.live_component
     module={XcrapperWeb.LivePageLive.FormComponent}
     id={@live_page.id}
@@ -25,4 +25,4 @@
     live_page={@live_page}
     patch={~p"/pages/#{@live_page}"}
   />
-</.modal>
+</.modal> --%>
