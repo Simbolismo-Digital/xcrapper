@@ -44,7 +44,7 @@ defmodule Xcrapper.Page do
       ** (Ecto.NoResultsError)
 
   """
-  def get_live_page!(id), do: Repo.get!(LivePage, id)
+  def get_live_page!(id), do: Repo.get!(LivePage, id) |> Repo.preload(:page_links)
 
   @doc """
   Creates a live_page.

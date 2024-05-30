@@ -13,6 +13,14 @@
   <:item title="Url"><%= @live_page.url %></:item>
   <:item title="Total links"><%= @live_page.links || "Processing" %></:item>
 </.list>
+<br /><br />
+<div>
+  <h2>Page Links</h2>
+  <.table id="live_page_links" rows={@live_page.page_links}>
+    <:col :let={page_link} label="Text"><%= page_link.text %></:col>
+    <:col :let={page_link} label="Href"><%= page_link.href %></:col>
+  </.table>
+</div>
 
 <.back navigate={~p"/pages"}>Back to pages</.back>
 

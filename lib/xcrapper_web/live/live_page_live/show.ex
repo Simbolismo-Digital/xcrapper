@@ -17,5 +17,5 @@ defmodule XcrapperWeb.LivePageLive.Show do
   end
 
   defp page_title(:show), do: "Show Live page"
-  defp page_title(:edit), do: "Edit Live page"
+  # defp page_title(:edit), do: "Edit Live page"
 end

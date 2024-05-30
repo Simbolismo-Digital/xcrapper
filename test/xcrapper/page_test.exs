@@ -2,6 +2,7 @@ defmodule Xcrapper.PageTest do
   use Xcrapper.DataCase
 
   alias Xcrapper.Page
+  alias Xcrapper.Repo
 
   describe "pages" do
     alias Xcrapper.Page.LivePage
@@ -16,7 +17,7 @@ defmodule Xcrapper.PageTest do
     end
 
     test "get_live_page!/1 returns the live_page with given id" do
-      live_page = live_page_fixture()
+      live_page = live_page_fixture() |> Repo.preload(:page_links)
       assert Page.get_live_page!(live_page.id) == live_page
     end
 
@@ -42,7 +43,7 @@ defmodule Xcrapper.PageTest do
     end
 
     test "update_live_page/2 with invalid data returns error changeset" do
-      live_page = live_page_fixture()
+      live_page = live_page_fixture() |> Repo.preload(:page_links)
       assert {:error, %Ecto.Changeset{}} = Page.update_live_page(live_page, @invalid_attrs)
       assert live_page == Page.get_live_page!(live_page.id)
     end

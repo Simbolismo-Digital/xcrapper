@@ -17,7 +17,12 @@ defmodule Xcrapper.Scrapper do
   end
 
   def next_page_query() do
-    from(p in LivePage, where: is_nil(p.links), order_by: [asc: p.inserted_at], limit: 1)
+    from(p in LivePage,
+      where: is_nil(p.links),
+      order_by: [asc: p.inserted_at],
+      limit: 1,
+      preload: :page_links
+    )
   end
 
   def next_page() do
@@ -53,7 +58,7 @@ defmodule Xcrapper.Scrapper do
   def parse_html(error), do: error
 
   def save_page({:ok, title, links}, page) do
-    LivePage.changeset(page, %{title: title, links: length(links)})
+    LivePage.changeset(page, %{title: title, links: length(links), page_links: links})
     |> Repo.update()
   end
 
