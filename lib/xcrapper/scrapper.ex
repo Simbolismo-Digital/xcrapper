@@ -1,4 +1,7 @@
 defmodule Xcrapper.Scrapper do
+  @moduledoc """
+  Module to Scrap and update pages using :httpoison and :floki
+  """
   import Ecto.Query
 
   alias Xcrapper.Page.LivePage
@@ -35,6 +38,7 @@ defmodule Xcrapper.Scrapper do
   def parse_html({:ok, html}) do
     {:ok, document} = Floki.parse_document(html)
     title = Floki.find(document, "title") |> Floki.text()
+
     links =
       Floki.find(document, "a")
       |> Enum.map(fn link ->

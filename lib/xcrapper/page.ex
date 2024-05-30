@@ -17,8 +17,17 @@ defmodule Xcrapper.Page do
       [%LivePage{}, ...]
 
   """
-  def list_pages do
-    Repo.all(LivePage)
+  def list_pages(page \\ 1, per_page \\ 5) do
+    Repo.all(
+      from(i in LivePage,
+        limit: ^per_page,
+        offset: ^((page - 1) * per_page)
+      )
+    )
+  end
+
+  def count_pages() do
+    Repo.aggregate(LivePage, :count, :id)
   end
 
   @doc """

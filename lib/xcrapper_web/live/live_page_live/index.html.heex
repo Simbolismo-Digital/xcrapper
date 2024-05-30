@@ -31,7 +31,18 @@
   </:action>
 </.table>
 
-<.modal :if={@live_action in [:new, :edit]} id="live_page-modal" show on_cancel={JS.patch(~p"/pages")}>
+<div id="pagination-controls">
+  <.button phx-click="prev_page" disabled={@page == 1}>Previous</.button>
+  <span>Page <%= @page %> of <%= @total_pages %></span>
+  <.button phx-click="next_page" disabled={@page == @total_pages}>Next</.button>
+</div>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="live_page-modal"
+  show
+  on_cancel={JS.patch(~p"/pages")}
+>
   <.live_component
     module={XcrapperWeb.LivePageLive.FormComponent}
     id={@live_page.id || :new}

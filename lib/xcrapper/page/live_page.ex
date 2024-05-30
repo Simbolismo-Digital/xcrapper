@@ -1,4 +1,7 @@
 defmodule Xcrapper.Page.LivePage do
+  @moduledoc """
+  LivePage schema
+  """
   use Ecto.Schema
   import Ecto.Changeset
 
