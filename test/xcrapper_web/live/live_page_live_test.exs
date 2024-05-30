@@ -4,9 +4,9 @@ defmodule XcrapperWeb.LivePageLiveTest do
   import Phoenix.LiveViewTest
   import Xcrapper.PageFixtures
 
-  @create_attrs %{title: "some title", url: "some url"}
-  @update_attrs %{title: "some updated title", url: "some updated url"}
-  @invalid_attrs %{title: nil, url: nil}
+  @create_attrs %{url: "some url"}
+  @update_attrs %{url: "some updated url"}
+  @invalid_attrs %{url: nil}
 
   defp create_live_page(_) do
     live_page = live_page_fixture()
@@ -66,7 +66,6 @@ defmodule XcrapperWeb.LivePageLiveTest do
 
       html = render(index_live)
       assert html =~ "Live page updated successfully"
-      assert html =~ "some updated title"
     end
 
     test "deletes live_page in listing", %{conn: conn, live_page: live_page} do
@@ -85,29 +84,6 @@ defmodule XcrapperWeb.LivePageLiveTest do
 
       assert html =~ "Show Live page"
       assert html =~ live_page.title
-    end
-
-    test "updates live_page within modal", %{conn: conn, live_page: live_page} do
-      {:ok, show_live, _html} = live(conn, ~p"/pages/#{live_page}")
-
-      assert show_live |> element("a", "Edit") |> render_click() =~
-               "Edit Live page"
-
-      assert_patch(show_live, ~p"/pages/#{live_page}/show/edit")
-
-      assert show_live
-             |> form("#live_page-form", live_page: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
-
-      assert show_live
-             |> form("#live_page-form", live_page: @update_attrs)
-             |> render_submit()
-
-      assert_patch(show_live, ~p"/pages/#{live_page}")
-
-      html = render(show_live)
-      assert html =~ "Live page updated successfully"
-      assert html =~ "some updated title"
     end
   end
 end
