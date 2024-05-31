@@ -1,9 +1,13 @@
 defmodule Xcrapper.Scrapper.Scheduler do
+  @moduledoc """
+  GenServer to schedule scrapping
+  """
   use GenServer
 
   require Logger
 
-  @interval 10000 # Interval in milliseconds to check again if scrapping is needed
+  # Interval in milliseconds to check again if scrapping is needed
+  @interval 10_000
 
   def start_link(_) do
     GenServer.start_link(__MODULE__, %{}, name: __MODULE__)
@@ -15,17 +19,17 @@ defmodule Xcrapper.Scrapper.Scheduler do
   end
 
   def handle_info(:scrap, state) do
-    if !state.executing do
+    if state.executing do
+      Logger.warning("[Scrapper] Already executing")
+      # Already executing, just reschedule
+      schedule_scrap()
+      {:noreply, state}
+    else
       Logger.warning("[Scrapper] Scrapping next page")
       # Mark as executing and start scrapping
       new_state = %{state | executing: true}
       Task.start(fn -> perform_scrap() end)
       {:noreply, new_state}
-    else
-      Logger.warning("[Scrapper] Already executing")
-      # Already executing, just reschedule
-      schedule_scrap()
-      {:noreply, state}
     end
   end
 
