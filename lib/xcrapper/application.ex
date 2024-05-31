@@ -17,9 +17,9 @@ defmodule Xcrapper.Application do
       # Start Finch
       {Finch, name: Xcrapper.Finch},
       # Start the Endpoint (http/https)
-      XcrapperWeb.Endpoint
-      # Start a worker by calling: Xcrapper.Worker.start_link(arg)
-      # {Xcrapper.Worker, arg}
+      XcrapperWeb.Endpoint,
+      # Scrapper server
+      Xcrapper.Scrapper.Scheduler
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
