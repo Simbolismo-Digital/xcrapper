@@ -11,6 +11,7 @@ services:
     environment:
       DATABASE_URL: ${DATABASE_URL-postgres://postgres:postgres@postgres:5432/postgres}
       SECRET_KEY_BASE: ${SECRET_KEY_BASE-n4GVvZfpb4Tq2GEX1OhC2JgNGQ157G8PJs7SmJEVp8vVmtwgWZgxh1waNpva3YsD}
+      PHX_HOST: ${PHX_HOST-localhost}
   postgres:
     image: postgres:16.3-alpine
     restart: always
