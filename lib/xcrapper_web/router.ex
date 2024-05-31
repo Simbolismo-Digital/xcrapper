@@ -10,6 +10,10 @@ defmodule XcrapperWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :authenticated do
+    plug XcrapperWeb.Plugs.Authenticated
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -17,7 +21,10 @@ defmodule XcrapperWeb.Router do
   scope "/", XcrapperWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live "/", SessionLive.Post, :post
+    live "/logout", SessionLive.Delete, :logout
+
+    pipe_through :authenticated
 
     live "/pages", LivePageLive.Index, :index
     live "/pages/new", LivePageLive.Index, :new

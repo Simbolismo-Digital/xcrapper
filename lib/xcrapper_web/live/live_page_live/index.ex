@@ -7,11 +7,13 @@ defmodule XcrapperWeb.LivePageLive.Index do
   @per_page 5
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(_params, session, socket) do
+    user_id = Map.get(session, "user_id")
+
     {:ok,
      socket
-     |> assign(page: 1, total_pages: total_pages())
-     |> stream(:pages, Page.list_pages(1, @per_page))}
+     |> assign(user_id: user_id, page: 1, total_pages: total_pages())
+     |> stream(:pages, Page.list_pages(user_id, 1, @per_page))}
   end
 
   @impl true
@@ -49,7 +51,7 @@ defmodule XcrapperWeb.LivePageLive.Index do
     {:noreply,
      socket
      |> assign(page: new_page)
-     |> stream(:pages, Page.list_pages(new_page, @per_page), reset: true)}
+     |> stream(:pages, Page.list_pages(socket.assigns.user_id, new_page, @per_page), reset: true)}
   end
 
   def handle_event("prev_page", _, socket) do
@@ -58,7 +60,7 @@ defmodule XcrapperWeb.LivePageLive.Index do
     {:noreply,
      socket
      |> assign(page: new_page)
-     |> stream(:pages, Page.list_pages(new_page, @per_page), reset: true)}
+     |> stream(:pages, Page.list_pages(socket.assigns.user_id, new_page, @per_page), reset: true)}
   end
 
   def handle_event("delete", %{"id" => id}, socket) do

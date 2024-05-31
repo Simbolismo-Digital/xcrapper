@@ -1,0 +1,24 @@
+<div>
+  <form phx-submit="login">
+    <input id="username" name="username" placeholder="Username" required />
+    <input id="password" name="password" type="password" placeholder="Password" required />
+    <.button type="submit">Login</.button>
+  </form>
+  <div>
+    <button
+      phx-click="register"
+      onclick="register()"
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    >
+      Do not have a user? Try to register here
+    </button>
+  </div>
+
+  <script>
+    function register() {
+      var registerButton = document.querySelector("[phx-click='register']");
+      registerButton.setAttribute("phx-value-username", document.getElementById("username").value);
+      registerButton.setAttribute("phx-value-password", document.getElementById("password").value);
+    }
+  </script>
+</div>

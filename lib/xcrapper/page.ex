@@ -17,11 +17,30 @@ defmodule Xcrapper.Page do
       [%LivePage{}, ...]
 
   """
-  def list_pages(page \\ 1, per_page \\ 5) do
+  def list_all_pages(page \\ 1, per_page \\ 5) do
     Repo.all(
       from(i in LivePage,
         limit: ^per_page,
         offset: ^((page - 1) * per_page)
+      )
+    )
+  end
+
+  @doc """
+  Returns the list of pages.
+
+  ## Examples
+
+      iex> list_pages(1)
+      [%LivePage{user_id: 1}, ...]
+
+  """
+  def list_pages(user_id, page \\ 1, per_page \\ 5) do
+    Repo.all(
+      from(i in LivePage,
+        limit: ^per_page,
+        offset: ^((page - 1) * per_page),
+        where: i.user_id == ^user_id
       )
     )
   end

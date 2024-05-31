@@ -13,7 +13,7 @@ defmodule Xcrapper.PageTest do
 
     test "list_pages/0 returns all pages" do
       live_page = live_page_fixture()
-      assert Page.list_pages() == [live_page]
+      assert Page.list_all_pages() == [live_page]
     end
 
     test "get_live_page!/1 returns the live_page with given id" do
@@ -22,11 +22,13 @@ defmodule Xcrapper.PageTest do
     end
 
     test "create_live_page/1 with valid data creates a live_page" do
-      valid_attrs = %{title: "some title", url: "some url"}
+      user_id = create_user_fixture().id
+      valid_attrs = %{title: "some title", url: "some url", user_id: user_id}
 
       assert {:ok, %LivePage{} = live_page} = Page.create_live_page(valid_attrs)
       assert live_page.title == "some title"
       assert live_page.url == "some url"
+      assert live_page.user_id == user_id
     end
 
     test "create_live_page/1 with invalid data returns error changeset" do

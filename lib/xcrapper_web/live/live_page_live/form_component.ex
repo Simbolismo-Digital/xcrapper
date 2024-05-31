@@ -43,7 +43,7 @@ defmodule XcrapperWeb.LivePageLive.FormComponent do
   def handle_event("validate", %{"live_page" => live_page_params}, socket) do
     changeset =
       socket.assigns.live_page
-      |> Page.change_live_page(live_page_params)
+      |> Page.change_live_page(Map.put(live_page_params, "user_id", socket.assigns.user_id))
       |> Map.put(:action, :validate)
 
     {:noreply, assign_form(socket, changeset)}
@@ -69,7 +69,7 @@ defmodule XcrapperWeb.LivePageLive.FormComponent do
   end
 
   defp save_live_page(socket, :new, live_page_params) do
-    case Page.create_live_page(live_page_params) do
+    case Page.create_live_page(Map.put(live_page_params, "user_id", socket.assigns.user_id)) do
       {:ok, live_page} ->
         notify_parent({:saved, live_page})
 

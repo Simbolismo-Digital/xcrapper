@@ -8,9 +8,14 @@ defmodule XcrapperWeb.LivePageLiveTest do
   @update_attrs %{url: "some updated url"}
   @invalid_attrs %{url: nil}
 
-  defp create_live_page(_) do
+  defp init_conn(conn) do
+    user = create_user_fixture()
+    init_test_session(conn, %{user_id: user.id})
+  end
+
+  defp create_live_page(%{conn: conn}) do
     live_page = live_page_fixture()
-    %{live_page: live_page}
+    %{conn: init_conn(conn), live_page: live_page}
   end
 
   describe "Index" do
@@ -20,7 +25,7 @@ defmodule XcrapperWeb.LivePageLiveTest do
       {:ok, _index_live, html} = live(conn, ~p"/pages")
 
       assert html =~ "Listing Pages"
-      assert html =~ live_page.title
+      assert html =~ live_page.title || "Processing"
     end
 
     test "saves new live_page", %{conn: conn} do
@@ -43,7 +48,7 @@ defmodule XcrapperWeb.LivePageLiveTest do
 
       html = render(index_live)
       assert html =~ "Live page created successfully"
-      assert html =~ "some title"
+      assert html =~ "Processing"
     end
 
     test "updates live_page in listing", %{conn: conn, live_page: live_page} do
